@@ -1,5 +1,8 @@
 package bean;
 
+import extra.ConexionBD;
+import java.util.ArrayList;
+
 public class Reclutador extends Cuenta {
     private String nombre;
     private int categoria;
@@ -11,7 +14,7 @@ public class Reclutador extends Cuenta {
     private String direccionEstado;
     
     //<editor-fold defaultstate="collapsed" desc="Constructores">
-    public Reclutador(String correo, String contrasena, String salt, int rol,
+    public Reclutador(String correo, String contrasena, String salt, String rol,
             String nombre, int categoria, long telefono,
             String direccionNumInterior, String direccionNumExterior, String direccionLocalidad,
             String direccionMunicipio, String direccionEstado) {
@@ -26,7 +29,7 @@ public class Reclutador extends Cuenta {
         this.direccionEstado = direccionEstado;
     }
 
-    public Reclutador(int id, String correo, String contrasena, String salt, int rol,
+    public Reclutador(int id, String correo, String contrasena, String salt, String rol,
             String nombre, int categoria, long telefono,
             String direccionNumInterior, String direccionNumExterior, String direccionLocalidad,
             String direccionMunicipio, String direccionEstado) {
@@ -119,6 +122,26 @@ public class Reclutador extends Cuenta {
 
     public void setDireccionEstado(String direccionEstado) {
         this.direccionEstado = direccionEstado;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Métodos">
+    public boolean registrar(int id) {
+        ArrayList instDB = new ArrayList();
+        ConexionBD objCBD = new ConexionBD("bolsadetrabajo");
+        
+        instDB.add("INSERT INTO reclutador VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        instDB.add(id);
+        instDB.add(categoria);
+        instDB.add(nombre);
+        instDB.add(direccionNumInterior);
+        instDB.add(direccionNumExterior);
+        instDB.add(direccionLocalidad);
+        instDB.add(direccionMunicipio);
+        instDB.add(direccionEstado);
+        instDB.add(telefono);
+        
+        return objCBD.ejecutarABC(instDB) > 0;
     }
     //</editor-fold>
     

@@ -1,5 +1,8 @@
 package bean;
 
+import extra.ConexionBD;
+import java.util.ArrayList;
+
 public class Capacitador extends Cuenta {
     private String nombre;
     private long telefono;
@@ -11,7 +14,7 @@ public class Capacitador extends Cuenta {
     private long numTarjeta;
     
     //<editor-fold defaultstate="collapsed" desc="Constructores">
-    public Capacitador(String correo, String contrasena, String salt, int rol, String nombre, long telefono,
+    public Capacitador(String correo, String contrasena, String salt, String rol, String nombre, long telefono,
             String direccionNumInterior, String direccionNumExterior, String direccionLocalidad,
             String direccionMunicipio, String direccionEstado, long numTarjeta) {
         super(correo, contrasena, salt, rol);
@@ -25,7 +28,7 @@ public class Capacitador extends Cuenta {
         this.numTarjeta = numTarjeta;
     }
 
-    public Capacitador(int id, String correo, String contrasena, String salt, int rol,
+    public Capacitador(int id, String correo, String contrasena, String salt, String rol,
             String nombre, long telefono, String direccionNumInterior, String direccionNumExterior,
             String direccionLocalidad, String direccionMunicipio, String direccionEstado, long numTarjeta) {
         super(id, correo, contrasena, salt, rol);
@@ -117,6 +120,26 @@ public class Capacitador extends Cuenta {
 
     public void setNumTarjeta(long numTarjeta) {
         this.numTarjeta = numTarjeta;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Métodos">
+    public boolean registrar(int id) {
+        ArrayList instDB = new ArrayList();
+        ConexionBD objCBD = new ConexionBD("bolsadetrabajo");
+        
+        instDB.add("INSERT INTO capacitador VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        instDB.add(id);
+        instDB.add(nombre);
+        instDB.add(telefono);
+        instDB.add(direccionNumInterior);
+        instDB.add(direccionNumExterior);
+        instDB.add(direccionLocalidad);
+        instDB.add(direccionMunicipio);
+        instDB.add(direccionEstado);
+        instDB.add(numTarjeta);
+        
+        return objCBD.ejecutarABC(instDB) > 0;
     }
     //</editor-fold>
     

@@ -1,5 +1,7 @@
 package bean;
 
+import extra.ConexionBD;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Empleador extends Cuenta {
@@ -10,20 +12,20 @@ public class Empleador extends Cuenta {
     private long telefono;
     private Date fechaNacimiento;
     private String curp;
-    private String cedulaProf;
+    private String profesion;
     private String direccionNumInterior;
     private String direccionNumExterior;
     private String direccionLocalidad;
     private String direccionMunicipio;
     private String direccionEstado;
-    private int estadoCivil;
+    private String estadoCivil;
 
     //<editor-fold defaultstate="collapsed" desc="Constructores">
     public Empleador(String nombre, String apPaterno, String apMaterno, String sexo,
-            long telefono, Date fechaNacimiento, String curp, String cedulaProf,
+            long telefono, Date fechaNacimiento, String curp, String profesion,
             String direccionNumInterior, String direccionNumExterior, String direccionLocalidad,
-            String direccionMunicipio, String direccionEstado, int estadoCivil,
-            String correo, String contrasena, String salt, int rol) {
+            String direccionMunicipio, String direccionEstado, String estadoCivil,
+            String correo, String contrasena, String salt, String rol) {
         super(correo, contrasena, salt, rol);
         this.nombre = nombre;
         this.apPaterno = apPaterno;
@@ -32,7 +34,7 @@ public class Empleador extends Cuenta {
         this.telefono = telefono;
         this.fechaNacimiento = fechaNacimiento;
         this.curp = curp;
-        this.cedulaProf = cedulaProf;
+        this.profesion = profesion;
         this.direccionNumInterior = direccionNumInterior;
         this.direccionNumExterior = direccionNumExterior;
         this.direccionLocalidad = direccionLocalidad;
@@ -41,11 +43,11 @@ public class Empleador extends Cuenta {
         this.estadoCivil = estadoCivil;
     }
 
-    public Empleador(int id, String correo, String contrasena, String salt, int rol,
+    public Empleador(int id, String correo, String contrasena, String salt, String rol,
             String nombre, String apPaterno, String apMaterno, String sexo,
-            long telefono, Date fechaNacimiento, String curp, String cedulaProf,
+            long telefono, Date fechaNacimiento, String curp, String profesion,
             String direccionNumInterior, String direccionNumExterior, String direccionLocalidad,
-            String direccionMunicipio, String direccionEstado, int estadoCivil) {
+            String direccionMunicipio, String direccionEstado, String estadoCivil) {
         super(id, correo, contrasena, salt, rol);
         this.nombre = nombre;
         this.apPaterno = apPaterno;
@@ -54,7 +56,7 @@ public class Empleador extends Cuenta {
         this.telefono = telefono;
         this.fechaNacimiento = fechaNacimiento;
         this.curp = curp;
-        this.cedulaProf = cedulaProf;
+        this.profesion = profesion;
         this.direccionNumInterior = direccionNumInterior;
         this.direccionNumExterior = direccionNumExterior;
         this.direccionLocalidad = direccionLocalidad;
@@ -64,9 +66,9 @@ public class Empleador extends Cuenta {
     }
     
     public Empleador(Cuenta c, String nombre, String apPaterno, String apMaterno, String sexo,
-            long telefono, Date fechaNacimiento, String curp, String cedulaProf,
+            long telefono, Date fechaNacimiento, String curp, String profesion,
             String direccionNumInterior, String direccionNumExterior, String direccionLocalidad,
-            String direccionMunicipio, String direccionEstado, int estadoCivil) {
+            String direccionMunicipio, String direccionEstado, String estadoCivil) {
         super(c);
         this.nombre = nombre;
         this.apPaterno = apPaterno;
@@ -75,7 +77,7 @@ public class Empleador extends Cuenta {
         this.telefono = telefono;
         this.fechaNacimiento = fechaNacimiento;
         this.curp = curp;
-        this.cedulaProf = cedulaProf;
+        this.profesion = profesion;
         this.direccionNumInterior = direccionNumInterior;
         this.direccionNumExterior = direccionNumExterior;
         this.direccionLocalidad = direccionLocalidad;
@@ -142,12 +144,12 @@ public class Empleador extends Cuenta {
         this.curp = curp;
     }
 
-    public String getCedulaProf() {
-        return cedulaProf;
+    public String getProfesion() {
+        return profesion;
     }
 
-    public void setCedulaProf(String cedulaProf) {
-        this.cedulaProf = cedulaProf;
+    public void setProfesion(String profesion) {
+        this.profesion = profesion;
     }
 
     public String getDireccionNumInterior() {
@@ -190,13 +192,38 @@ public class Empleador extends Cuenta {
         this.direccionEstado = direccionEstado;
     }
 
-    public int getEstadoCivil() {
+    public String getEstadoCivil() {
         return estadoCivil;
     }
 
-    public void setEstadoCivil(int estadoCivil) {
+    public void setEstadoCivil(String estadoCivil) {
         this.estadoCivil = estadoCivil;
     }
     //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="Métodos">
+    public boolean registrar(int id) {
+        ArrayList instDB = new ArrayList();
+        ConexionBD objCBD = new ConexionBD("bolsadetrabajo");
+        
+        instDB.add("INSERT INTO empleador VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        instDB.add(id);
+        instDB.add(estadoCivil);
+        instDB.add(profesion);
+        instDB.add(nombre);
+        instDB.add(apPaterno);
+        instDB.add(apMaterno);
+        instDB.add(sexo);
+        instDB.add(telefono);
+        instDB.add(fechaNacimiento);
+        instDB.add(curp);
+        instDB.add(direccionNumInterior);
+        instDB.add(direccionNumExterior);
+        instDB.add(direccionLocalidad);
+        instDB.add(direccionMunicipio);
+        instDB.add(direccionEstado);
+        
+        return objCBD.ejecutarABC(instDB) > 0;
+    }
+    //</editor-fold>
 }
