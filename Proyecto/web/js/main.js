@@ -31,7 +31,7 @@ $(window).on('load', function() {
             dataType: 'json',
             data: {tipo: $tipo.val(), remitente: $remit.val(), busqueda: $input.val()},
             success: function(data) {
-                var c = "";
+                var c = "", s = "";
                 console.log(data.contactos.length);
                 if(data.contactos.length > 0) {
                     Object.keys(data.contactos).forEach(function(key) {
@@ -48,6 +48,17 @@ $(window).on('load', function() {
                     c += '<div class="contact"><em>Sin contactos</em></div>';
                 }
                 $("#contacts").html(c);
+                
+                if(data.sugerencias.length > 0) {
+                    Object.keys(data.sugerencias).forEach(function(key) {
+                        s += '<div class="contact"><a href="mensajes.jsp?c=' +
+                          data.sugerencias[key].id + '">' + data.sugerencias[key].nombre + '</a></div>';
+                    });
+                    $("#suggestions").html(s);
+                    $("#suggs").show();
+                } else {
+                    $("#suggs").hide();
+                }
             },
             error: function() {
                 console.log('fail');
@@ -58,7 +69,9 @@ $(window).on('load', function() {
      
         doneTyping();
     }
-    $("#conversation").scrollTop($("#conversation")[0].scrollHeight);
+    if ($("#conversation").length > 0) {
+        $("#conversation").scrollTop($("#conversation")[0].scrollHeight);
+    }
 });
 
 $('input[name=tipo]').on('change', function() {

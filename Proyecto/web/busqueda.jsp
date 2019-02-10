@@ -7,12 +7,15 @@
     <div class="big">
         <div class="container">
             <h2>Vacantes</h2>
-            
+            <article>
+                <h3>Hola mundo</h3>
+                <p></p>
+            </article>
         </div>
     </div>
     <div class="small">
         <div class="container">
-            <h3>Filtros</h3>
+            <h3><i class="fas fa-filter fa-fw"></i> Filtros</h3>
             <form action="" method="get" autocomplete="off">
                 <p>
                     <label for="bsqTitulo">Título</label>

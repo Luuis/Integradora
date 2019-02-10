@@ -1,8 +1,12 @@
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="extra.ConexionBD"%>
 <%@page import="bean.Sesion"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <% if(session.getAttribute("sesion") == null) {
     session.setAttribute("sesion", new Sesion());
 }
+ConexionBD objCBD = new ConexionBD("bolsadetrabajo");
 Sesion sh = (Sesion) session.getAttribute("sesion"); %>
 <!DOCTYPE html>
 <html>
@@ -34,7 +38,11 @@ Sesion sh = (Sesion) session.getAttribute("sesion"); %>
                         <li><a href="/">Inicio</a></li>
                         <li><a href="busqueda.jsp">Búsqueda</a></li>
                         <% if (sh != null && sh.isIniciada()) { %>
-                        <li><a href="sesion.jsp?f=salir">Cerrar sesión</a></li>
+                        <li><a href="cursos.jsp">Cursos</a></li>
+                        <li><a href="planes.jsp">Planes</a></li>
+                        <li><a href="postulaciones.jsp">Postulaciones
+                            <sup style="color: firebrick;"><i class="fas fa-exclamation-circle"></i></sup>
+                        </a></li>
                         <% } else { %>
                         <li><a href="sesion.jsp">Iniciar sesión</a></li>
                         <li><a href="sesion.jsp?f=registro">Regístrarse</a></li>
@@ -42,8 +50,24 @@ Sesion sh = (Sesion) session.getAttribute("sesion"); %>
                     </ul>
                     <% if (sh != null && sh.isIniciada()) { %>
                     <ul id="menu">
-                        <li><a href="mensajes.jsp" title="Perfil"><i class="fas fa-user fa-fw"></i></a></li>
-                        <li><a href="mensajes.jsp" title="Mensajes"><i class="fas fa-envelope fa-fw"></i> <% out.print(sh.getTipo()); %></a></li>
+                        <li><a href="perfil.jsp?c=<%=sh.getId()%>" title="Perfil"><i class="fas fa-user fa-fw"></i></a></li>
+                        <% ArrayList sqlMensajes = new ArrayList();
+                        sqlMensajes.add("SELECT count(mens_leido) FROM mensajes "
+                                + "WHERE mens_destinatario=? AND mens_leido=0");
+                        sqlMensajes.add(sh.getId());
+                        objCBD.consultar(sqlMensajes);
+                        ResultSet rs = objCBD.getCdr();
+                        String mensajes = "";
+                        while (rs.next()) {
+                            if (rs.getInt(1) > 0) {
+                                mensajes = "<sup style='color: firebrick;'><i class='fas fa-exclamation-circle'></i></sup>";
+                            }
+                        }
+                        %>
+                        <li><a href="mensajes.jsp" title="Mensajes">
+                            <i class="fas fa-envelope fa-fw"></i><%=mensajes%>
+                        </a></li>
+                        <li><a href="sesion.jsp?f=salir">Cerrar sesión</a></li>
                     </ul>
                     <% } %>
                 </div>
