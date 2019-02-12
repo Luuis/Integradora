@@ -128,6 +128,7 @@ CREATE TABLE IF NOT EXISTS `cuenta` (
   `cuen_correo` varchar(255) COLLATE latin1_spanish_ci NOT NULL,
   `cuen_contrasena` varchar(44) COLLATE latin1_spanish_ci NOT NULL,
   `cuen_salt` varchar(30) COLLATE latin1_spanish_ci NOT NULL,
+  `cuen_activa` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_cuenta`),
   UNIQUE KEY `cuenta_correo` (`cuen_correo`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
@@ -135,13 +136,14 @@ CREATE TABLE IF NOT EXISTS `cuenta` (
 -- Volcando datos para la tabla bolsadetrabajo.cuenta: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `cuenta` DISABLE KEYS */;
 INSERT INTO `cuenta` (`id_cuenta`, `cuen_rol`, `cuen_correo`, `cuen_contrasena`, `cuen_salt`) VALUES
-	(1, 'Bolsa de Trabajo', 'admin@bolsadetrabajo.com', 'z6coEuht5rWHskHiaMlDGbGl2rzxSN7EsGR8pkZz09w=', 'i0IgZQyyMDM1XO68i0EfaLaf8gei2m');
+	(1, 'Bolsa de Trabajo', 'admin@bulkjobs.com', 'z6coEuht5rWHskHiaMlDGbGl2rzxSN7EsGR8pkZz09w=', 'i0IgZQyyMDM1XO68i0EfaLaf8gei2m');
 /*!40000 ALTER TABLE `cuenta` ENABLE KEYS */;
 
 -- Volcando estructura para tabla bolsadetrabajo.curriculum
 CREATE TABLE IF NOT EXISTS `curriculum` (
   `id_curriculum` int(11) NOT NULL AUTO_INCREMENT,
   `curr_cuenta` int(11) NOT NULL,
+  `curr_archivo` varchar(255) NULL,
   `curr_fecha_subida` datetime NOT NULL,
   PRIMARY KEY (`id_curriculum`),
   KEY `curriculum_cuenta` (`curr_cuenta`),

@@ -21,7 +21,7 @@ public final class ConexionBD {
     public ConexionBD(String nombreBD) {
         this.nombreBD = nombreBD;
         usuario = "root";
-        passw = "root";
+        passw = "";
         url = "jdbc:mysql://localhost/" + nombreBD;
         realizarConexion();
     }
